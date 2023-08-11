@@ -99,6 +99,14 @@ class ImageCaroFragment : Fragment() {
                     return false
                 }
                 override fun onQueryTextChange(newText: String?): Boolean {
+                    val filterItem =
+                        currentDataSet.filter { it.text.contains("$query", ignoreCase = true) }
+                    if (filterItem.isEmpty()) {
+                        Toast.makeText(requireContext(), "Not found", Toast.LENGTH_LONG)
+                            .show()
+                    } else {
+                        recycleView.adapter = ImageTextAdapter(requireContext(), filterItem)
+                    }
                     return false
                 }
             })
