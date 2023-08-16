@@ -19,6 +19,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import util.DataUtil
 import util.DataUtil.Companion.getDummyData
 
 
@@ -33,7 +34,7 @@ class ImageCaroFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentImageCaroBinding.inflate(inflater, container, false)
         return binding.root
@@ -44,7 +45,8 @@ class ImageCaroFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewPager = binding.pager
-        val pagerAdapter = ScreenSlidePagerAdapter(this)
+        val pagerAdapter =
+            ScreenSlidePagerAdapter(this, DataUtil.getDummyImageData(requireContext()))
         viewPager.adapter = pagerAdapter
         TabLayoutMediator(binding.indicator, viewPager) { _, _ -> }.attach()
 
@@ -98,6 +100,7 @@ class ImageCaroFragment : Fragment() {
                     }
                     return false
                 }
+
                 override fun onQueryTextChange(newText: String?): Boolean {
                     val filterItem =
                         currentDataSet.filter { it.text.contains("$query", ignoreCase = true) }
